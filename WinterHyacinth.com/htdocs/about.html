@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <link rel="robots" href="/robots.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Hakkımızda | WINTER HYACINTH STUDIOS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <meta name="description" content="WINTER HYACINTH STUDIOS hakkında bilgi edinin. Kimiz, misyonumuz, vizyonumuz ve oyunlarımızın arkasındaki tutku.">
+    <meta name="keywords" content="WINTER HYACINTH STUDIOS, hakkımızda, misyon, vizyon, oyun geliştirme, Enbest">
+    <meta name="author" content="Enbest">
+    <link rel="canonical" href="https://winterhyacinth.gt.tc/about.html">
+
+    <style>
+        /* Sayfa Geçiş ve Yükleyici Stilleri */
+        body {
+            background: #0b0e14;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        body.body-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        #page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0b0e14;
+            z-index: 99999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        #page-loader.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Navbar - Index ile birebir eşitlendi */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(11, 14, 20, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-sizing: border-box;
+            border-bottom: 1px solid #1a1f29;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        .logo span {
+            color: #7d5fff;
+        }
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            margin-left: 25px;
+            transition: 0.3s;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .nav-links a:hover {
+            color: #7d5fff;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1a1f29 0%, #0b0e14 100%);
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.imgur.com/jlevP0F.jpeg') center/cover no-repeat;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+        .hero-text h1 span {
+            color: #7d5fff;
+        }
+        .hero-text p {
+            color: #888;
+            margin: 20px auto 0;
+            font-size: 1.15rem;
+            max-width: 650px;
+            line-height: 1.6;
+        }
+
+        /* Section General */
+        .section {
+            padding: 100px 10%;
+        }
+        
+        .section-title { 
+            font-size: 2.2rem; 
+            margin-bottom: 25px; 
+            border-left: 6px solid #7d5fff; 
+            padding-left: 20px; 
+            line-height: 1;
+            letter-spacing: -0.5px;
+        }
+
+        /* Story Grid */
+        .story-container {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 60px;
+            align-items: center;
+        }
+        @media (max-width: 992px) {
+            .story-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        .story-text p {
+            color: #999;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #161b22, #1a1f29);
+            border: 1px solid #30363d;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .highlight-box:hover {
+            transform: translateY(-5px);
+            border-color: #7d5fff;
+        }
+
+        /* Feature Cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 80px;
+        }
+        .feature-card {
+            background: #161b22;
+            padding: 40px 30px;
+            border-radius: 18px;
+            border: 1px solid #30363d;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: #7d5fff;
+            background: #1a212c;
+            box-shadow: 0 10px 30px rgba(125, 95, 255, 0.1);
+        }
+        .feature-card .icon-box {
+            width: 65px;
+            height: 65px;
+            background: rgba(125, 95, 255, 0.1);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        .feature-card .icon-box i {
+            font-size: 1.8rem;
+            color: #7d5fff;
+        }
+        .feature-card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        .feature-card p {
+            color: #888;
+            line-height: 1.7;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        /* Creator / Team Section Box */
+        .creator-box {
+            background: linear-gradient(135deg, #161b22 0%, #0d1117 100%);
+            border: 1px solid #30363d;
+            border-radius: 20px;
+            padding: 45px;
+            margin-top: 80px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        @media (max-width: 768px) {
+            .creator-box {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px 20px;
+            }
+        }
+        .creator-avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            overflow: hidden; /* Fotoğrafın daire dışına taşmasını engeller */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 0 25px rgba(125, 95, 255, 0.4);
+            border: 2px solid #7d5fff; /* Şık bir çerçeve efekti */
+        }
+        /* Fotoğrafın daireyi tamamen doldurmasını ve ortalanmasını sağlar */
+        .creator-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            object-position: center;
+        }
+        .creator-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.7rem;
+            letter-spacing: -0.5px;
+        }
+        .creator-info .role {
+            color: #7d5fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .creator-info p {
+            color: #888;
+            margin: 0;
+            line-height: 1.7;
+            font-size: 0.98rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px;
+            color: #555;
+            background: #07090d;
+            border-top: 1px solid #1a1f29;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="page-loader"></div>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo">WINTER<span>HYACINTH</span></a>
+        <div class="nav-links">
+            <a href="index.html#games">Projeler</a>
+            <a href="index.html#devlogs">Günlükler</a>
+            <a href="about.html" style="color: #7d5fff;">Hakkımızda</a>
+            <a href="contact.html">İletişim</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>YARATICILIĞIN KODLA <span>BULUŞTUĞU YER</span></h1>
+                <p>Winter Hyacinth Stüdyoları olarak sınırları zorlayan oyun deneyimleri tasarlıyor, en saf tutkumuzu her satır koda işliyoruz.</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="section">
+            <div class="story-container">
+                <div class="story-text">
+                    <h2 class="section-title">HİKAYEMİZ</h2>
+                    <p>
+                        <strong>Winter Hyacinth Stüdyoları</strong>; oyunculara yalnızca vakit geçirtecek içerikler sunmak yerine, onları tamamen içine çeken sürükleyici dünyalar yaratmak ve bağımsız oyun ekosisteminde kalıcı bir iz bırakmak amacıyla kurulmuş bağımsız bir geliştirme stüdyosudur.
+                    </p>
+                    <p>
+                        İlk günden bu yana temel felsefemiz; estetik tasarımı güçlü bir teknik altyapıyla birleştirmek ve her projemizde performans ile kalite standardını bir üst seviyeye taşımaktır.
+                    </p>
+                </div>
+                <div>
+                    <div class="highlight-box">
+                        <i class="fas fa-gamepad" style="font-size: 4rem; color: #7d5fff; margin-bottom: 20px;"></i>
+                        <h3 style="margin: 0 0 10px 0; font-size: 1.5rem; letter-spacing: -0.5px;">Bağımsız Ruh</h3>
+                        <p style="color: #888; font-size: 0.95rem; margin: 0; line-height: 1.6;">Özgün fikirlerin özgürce gerçeğe dönüştüğü yenilikçi stüdyo anlayışı.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon-box">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3>Misyonumuz</h3>
+                    <p>Oyuncuların hafızasından silinmeyecek, özgün mekaniklere sahip ve teknik açıdan kusursuz dijital evrenler inşa etmek.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-box">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Vizyonumuz</h3>
+                    <p>Bağımsız oyun dünyasında kalitesiyle güven veren, sürekli gelişen ve küresel çapta tanınan kalıcı bir marka haline gelmek.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon-box">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Teknik Yaklaşım</h3>
+                    <p>Modüler sistemler, temiz mimari kalıpları ve hassas optimizasyon prensipleriyle projelerimizi en sağlam temeller üzerine kuruyoruz.</p>
+                </div>
+            </div>
+
+            <div class="creator-box">
+                <div class="creator-avatar"><img src="img/avatar.jpg" alt="Enbest"></div>
+                <div class="creator-info">
+                    <h3>Enbest</h3>
+                    <span class="role">Kurucu & Baş Geliştirici</span>
+                    <p>Winter Hyacinth bünyesindeki tüm sistem mimarisinin, çekirdek altyapıların ve oyun geliştirme süreçlerinin arkasındaki isim. Yaratıcı vizyonları gerçeğe dönüştürmek için teknik sınırları zorlamaya devam ediyor.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Winter Hyacinth Studios. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

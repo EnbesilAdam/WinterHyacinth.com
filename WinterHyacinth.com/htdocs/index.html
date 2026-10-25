@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <link rel="robots" href="/robots.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Winter Hyacinth Studios | Resmi Site</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <meta name="description" content="Winter Hyacinth Studios resmi sitesi. Oyun geliştirme süreçleri ve teknik güncellemeler.">
+    <meta name="keywords" content="Winter Hyacinth Studios, oyun geliştirme, devlog, sistem yönetimi, Enbest">
+    <meta name="author" content="Enbest">
+    <link rel="canonical" href="https://winterhyacinth.com/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://winterhyacinth.gt.tc/">
+    <meta property="og:title" content="Winter Hyacinth Studios">
+    <meta property="og:description" content="En yeni geliştirici notları ve oyun projeleri.">
+    <meta property="og:image" content="https://i.imgur.com/jlevP0F.jpeg">
+
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Winter Hyacinth Studios",
+      "url": "https://winterhyacinth.gt.tc/"
+    }
+    </script>
+
+    <style>
+        body {
+            background: #0b0e14;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(11, 14, 20, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-sizing: border-box;
+            border-bottom: 1px solid #1a1f29;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        .logo span {
+            color: #7d5fff;
+        }
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            margin-left: 25px;
+            transition: 0.3s;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .nav-links a:hover {
+            color: #7d5fff;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1a1f29 0%, #0b0e14 100%);
+        }
+        .hero-text h1 {
+            font-size: 4rem;
+            margin: 0;
+            line-height: 1.1;
+        }
+        .hero-text h1 span {
+            color: #7d5fff;
+        }
+        .hero-text p {
+            color: #888;
+            margin: 25px 0;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-btns .btn, .hero-btns .btn-outline {
+            padding: 12px 35px;
+            border-radius: 30px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .hero-btns .btn {
+            background: #7d5fff;
+            color: white;
+            border: 2px solid #7d5fff;
+        }
+        .hero-btns .btn:hover {
+            background: #6c4de6;
+            transform: translateY(-3px);
+        }
+        .hero-btns .btn-outline {
+            border: 2px solid #7d5fff;
+            color: #7d5fff;
+            margin-left: 15px;
+        }
+        .hero-btns .btn-outline:hover {
+            background: #7d5fff;
+            color: white;
+        }
+
+        /* Section General */
+        .section {
+            padding: 100px 10%;
+        }
+        
+        .section-title { 
+            font-size: 2.5rem; 
+            margin-bottom: 50px; 
+            border-left: 6px solid #7d5fff; 
+            padding-left: 20px; 
+            line-height: 1;
+        }
+
+        /* Projeler (Games) Grid */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .project-card {
+            background: #161b22;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #30363d;
+            transition: 0.3s;
+        }
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: #7d5fff;
+        }
+        .project-img {
+            width: 100%;
+            height: 200px;
+            background: #0d1117;
+            object-fit: cover;
+            border-bottom: 1px solid #30363d;
+        }
+        .project-info {
+            padding: 25px;
+        }
+        .project-info h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+        }
+        .project-info p {
+            color: #888;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .project-card.empty {
+            border: 2px dashed #30363d;
+            background: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 380px;
+        }
+        .project-card.empty i {
+            font-size: 3rem;
+            color: #30363d;
+            margin-bottom: 15px;
+        }
+        .project-card.empty h3 {
+            color: #30363d;
+        }
+
+        /* Devlogs List */
+        .devlog-item {
+            background: #0d1117;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: 1px solid #1a1f29;
+            transition: 0.3s;
+        }
+        .devlog-item:hover {
+            border-color: #7d5fff;
+            background: #161b22;
+        }
+        .devlog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .devlog-item .date {
+            color: #7d5fff;
+            font-size: 0.85rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        .devlog-category {
+            background: rgba(125, 95, 255, 0.1);
+            color: #7d5fff;
+            padding: 3px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .devlog-link {
+            color: #7d5fff;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 60px;
+            color: #555;
+            background: #07090d;
+            border-top: 1px solid #1a1f29;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="logo">Wınter<span>hyacınth</span></a>
+        <div class="nav-links">
+            <a href="#games" class="smooth-scroll">Projeler</a>
+            <a href="#devlogs" class="smooth-scroll">Günlükler</a>
+            <a href="about.html">Hakkımızda</a>
+            <a href="contact.html">İletişim</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-text">
+            <h1><span>Winter Hyacinth</span><br>Studios</h1>
+            <p>Sınırları zorlayan oyunlar ve benzersiz dijital deneyimler geliştiriyoruz.</p>
+            <div class="hero-btns">
+                <a href="#games" class="btn smooth-scroll">Projeleri Gör</a>
+                <a href="#" id="hero-latest-link" class="btn-outline">Son Devlog</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="games" class="section">
+            <h2 class="section-title">Projelerimiz</h2>
+            <div class="project-grid">
+                
+                <article class="project-card">
+                    <img src="https://imgur.com/kxvNa74.jpeg" alt="My School Memories" class="project-img">
+                    <div class="project-info">
+                        <h3>My School Memories</h3>
+                        <p>Kendi içimizde geliştirdiğimiz, yüksek performanslı ve modüler oyun araçları seti.</p>
+                        <a href="myschoolmemories.html" class="btn" style="padding: 8px 20px; font-size: 0.8rem;">Detaylar</a>
+                    </div>
+                </article>
+
+                <article class="project-card empty">
+                    <i class="fas fa-hammer"></i>
+                    <h3>Çok Yakında</h3>
+                    <p style="padding: 0 20px;">Yeni bir macera üzerinde çalışıyoruz. Takipte kalın!</p>
+                </article>
+
+            </div>
+        </section>
+
+        <section id="devlogs" class="section" style="background: #0b0e14;">
+            <h2 class="section-title">Geliştirici Günlükleri</h2>
+            <div id="dynamic-devlog-container">
+                <p style="text-align: center; color: #444;">Yükleniyor...</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Winter Hyacinth Studios. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const GIST_URL = 'https://gist.githubusercontent.com/EnbesilAdam/efa76e1d7df2ba5be195bd4717d339b5/raw/posts.json';
+
+        async function loadContent() {
+            const container = document.getElementById('dynamic-devlog-container');
+            const heroBtn = document.getElementById('hero-latest-link');
+
+            try {
+                const response = await fetch(`${GIST_URL}?t=${new Date().getTime()}`);
+                const data = await response.json();
+
+                if (data && data.length > 0) {
+                    data.sort((a, b) => parseInt(b.id) - parseInt(a.id));
+                    if (heroBtn) heroBtn.href = `devlog-detail.html?id=${data[0].id}`;
+
+                    container.innerHTML = ""; 
+                    data.forEach(post => {
+                        const title = post.baslik || "Başlıksız";
+                        const summary = post.ozet || "";
+                        const category = post.kategori ? post.kategori.toUpperCase() : "GÜNCELLEME";
+                        const author = post.yazar || "Enbest";
+
+                        container.innerHTML += `
+                            <article class="devlog-item">
+                                <div class="devlog-meta">
+                                    <span class="date">${post.tarih}</span>
+                                    <span class="devlog-category">${category}</span>
+                                </div>
+                                <h3 style="margin: 10px 0; font-size: 1.4rem;">${title}</h3>
+                                <p style="color: #888; margin: 0 0 10px 0;">${summary}</p>
+                                <div style="font-size: 0.8rem; color: #555; margin-bottom: 10px;">Yazar: ${author}</div>
+                                <a href="devlog-detail.html?id=${post.id}" class="devlog-link">Devamını Oku &rarr;</a>
+                            </article>
+                        `;
+                    });
+                }
+            } catch (err) {
+                container.innerHTML = "<p style='text-align: center; color: #888;'>Günlükler şu an yüklenemedi.</p>";
+            }
+        }
+
+        window.onload = loadContent;
+
+        // Sayfa içi linkler için yumuşak, akıcı kaydırma (Sabit menü payı hesaplamalı)
+        document.querySelectorAll('a.smooth-scroll').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId.startsWith('#')) {
+                    e.preventDefault();
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const navbarHeight = document.querySelector('.navbar').offsetHeight;
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

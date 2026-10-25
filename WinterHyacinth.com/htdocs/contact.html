@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İletişim - Winter Hyacinth</title>
+    <!-- İkonlar için FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0b0e14;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- SİYAH KARARMA PERDESİ (OVERLAY) --- */
+        #page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #0b0e14;
+            z-index: 99999;
+            pointer-events: none;
+            opacity: 1;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        #page-loader.hidden {
+            opacity: 0;
+        }
+
+        #page-loader.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(11, 14, 20, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid #1a1f29;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo span {
+            color: #7d5fff;
+        }
+
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            margin-left: 25px;
+            transition: 0.3s;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #7d5fff;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 45vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1a1f29 0%, #0b0e14 100%);
+            padding: 100px 20px 0;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin: 0;
+        }
+
+        .hero p {
+            color: #888;
+            margin-top: 10px;
+        }
+
+        /* Main Container & Cards Grid */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: -50px auto 80px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 16px;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #7d5fff;
+        }
+
+        .card h2 {
+            margin: 0 0 15px 0;
+            font-size: 1.5rem;
+        }
+
+        .card p {
+            color: #a0a6b5;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        /* Form Styling */
+        .contact-form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: #0b0e14;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-input::placeholder {
+            color: #6e7681;
+            opacity: 1;
+        }
+
+        .form-input:focus {
+            border-color: #7d5fff;
+            box-shadow: 0 0 8px rgba(125, 95, 255, 0.3);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* Form Durum Mesajı */
+        #form-status {
+            display: none;
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: center;
+            font-weight: 500;
+        }
+        #form-status.success {
+            display: block;
+            background: rgba(46, 160, 67, 0.15);
+            border: 1px solid #2ea043;
+            color: #56d364;
+        }
+        #form-status.error {
+            display: block;
+            background: rgba(248, 81, 73, 0.15);
+            border: 1px solid #f85149;
+            color: #f85149;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #555;
+            background: #07090d;
+            border-top: 1px solid #1a1f29;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- KARARMA PERDESİ -->
+    <div id="page-loader"></div>
+
+    <!-- Header -->
+    <header class="navbar">
+        <a href="index.html" class="logo">WINTER<span>HYACINTH</span></a>
+        <nav class="nav-links">
+            <a href="index.html#games">Projeler</a>
+            <a href="index.html#devlogs">Günlükler</a>
+            <a href="about.html">Hakkımızda</a>
+            <a href="contact.html" style="color: #7b61ff;">İletişim</a>
+        </nav>
+    </header>
+
+    <!-- Hero Alanı -->
+    <section class="hero" style="border-bottom: 1px solid #1a1d24;">
+        <h1>Bizimle <span style="color: #7b61ff;">Konuş</span></h1>
+        <p>Topluluğumuza katılın veya resmi iş birliği için bize yazın.</p>
+    </section>
+
+    <!-- İçerik Kartları -->
+    <main class="cards-container">
+        <!-- 1. Kart: Discord Topluluğu -->
+        <div class="card">
+            <i class="fab fa-discord" style="font-size: 50px; color: #7289da; margin-bottom: 20px;"></i>
+            <h2>Discord Topluluğu</h2>
+            <p>Destek biletleri, hata bildirimleri, güncellemeler ve anlık sohbet için resmi Discord sunucumuza katılın.</p>
+            <a href="https://discord.gg" target="_blank" class="btn" style="background-color: #7289da; color: white; margin-top: auto;">
+                <i class="fas fa-external-link-alt"></i> Sunucuya Katıl
+            </a>
+        </div>
+
+        <!-- 2. Kart: Doğrudan İletişim (Formspree Entegreli Form) -->
+        <div class="card">
+            <i class="fas fa-envelope-open-text" style="font-size: 45px; color: #7b61ff; margin-bottom: 20px;"></i>
+            <h2>Doğrudan İletişim</h2>
+            <p>İş birliği, projeler veya kurumsal sorularınız için aşağıdaki formu doldurarak bize ulaşın.</p>
+
+            <form id="my-form" action="https://formspree.io/f/xwlpoonp" method="POST" class="contact-form">
+                <input type="text" name="name" placeholder="Adınız" class="form-input" spellcheck="false" required>
+                <input type="email" name="email" placeholder="E-posta Adresiniz" class="form-input" spellcheck="false" required>
+                <textarea name="message" placeholder="Mesajınız..." class="form-input" spellcheck="false" style="resize: vertical; min-height: 120px;" required></textarea>
+
+                <button type="submit" id="submit-btn" class="btn" style="background-color: #8b5cf6; color: white;">
+                    <i class="fas fa-paper-plane"></i> Mesajı Gönder
+                </button>
+            </form>
+
+            <!-- Durum Mesajı Alanı -->
+            <div id="form-status"></div>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2026 Winter Hyacinth. Tüm hakları saklıdır.
+    </footer>
+
+    <!-- GEÇİŞ VE FORMSPREE AJAX KODLARI -->
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            const loader = document.getElementById("page-loader");
+
+            // Sayfa açılış kararması
+            setTimeout(() => {
+                loader.classList.add("hidden");
+            }, 50);
+
+            // Sayfa geçiş kararması
+            const links = document.querySelectorAll("a");
+            links.forEach(link => {
+                link.addEventListener("click", (e) => {
+                    const href = link.getAttribute("href");
+
+                    if (
+                        !href ||
+                        href.startsWith("#") ||
+                        href.startsWith("http") ||
+                        link.getAttribute("target") === "_blank"
+                    ) {
+                        return;
+                    }
+
+                    e.preventDefault();
+                    loader.classList.remove("hidden");
+                    loader.classList.add("active");
+
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 400);
+                });
+            });
+
+            // Formspree Arka Plan Gönderim Mantığı (AJAX)
+            const form = document.getElementById("my-form");
+            const status = document.getElementById("form-status");
+            const btn = document.getElementById("submit-btn");
+
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const data = new FormData(form);
+
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gönderiliyor...';
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: form.method,
+                        body: data,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        status.className = "success";
+                        status.innerHTML = "Mesajınız başarıyla iletildi. En kısa sürede dönüş yapacağız!";
+                        form.reset();
+                    } else {
+                        const result = await response.json();
+                        status.className = "error";
+                        if (Object.hasOwn(result, 'errors')) {
+                            status.innerHTML = result["errors"].map(error => error["message"]).join(", ");
+                        } else {
+                            status.innerHTML = "Bir sorun oluştu. Lütfen tekrar deneyin.";
+                        }
+                    }
+                } catch (error) {
+                    status.className = "error";
+                    status.innerHTML = "Ağ hatası! Lütfen bağlantınızı kontrol edin.";
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Mesajı Gönder';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <link rel="robots" href="/robots.txt">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yönetici Girişi | Winter Hyacinth Studios</title>
+
+    <meta name="description" content="Winter Hyacinth Studios yönetim paneli giriş ekranı.">
+    <meta name="author" content="Enbest">
+    <meta name="robots" content="noindex, nofollow">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at top, #1a1f3a 0%, #0b0e1a 60%, #060810 100%);
+            color: #f8fafc;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Arka planda yumuşak hareketli ışık efekti */
+        body::before, body::after {
+            content: "";
+            position: fixed;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.25;
+            z-index: 0;
+            animation: floatBlob 12s ease-in-out infinite;
+            pointer-events: none;
+        }
+        body::before {
+            background: #7d5fff;
+            top: -100px;
+            left: -100px;
+        }
+        body::after {
+            background: #38bdf8;
+            bottom: -120px;
+            right: -100px;
+            animation-delay: 3s;
+        }
+        @keyframes floatBlob {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(40px, 30px) scale(1.1); }
+        }
+
+        /* Hafif yıldız/parçacık dokusu */
+        .particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(125, 95, 255, 0.5);
+            border-radius: 50%;
+            animation: drift linear infinite;
+        }
+        @keyframes drift {
+            from { transform: translateY(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            to { transform: translateY(-100vh); opacity: 0; }
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 5%;
+            background: rgba(11, 14, 20, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-sizing: border-box;
+            border-bottom: 1px solid #1a1f29;
+        }
+        .logo {
+            font-size: 1.85rem;
+            font-weight: 800;
+            text-decoration: none;
+            color: #ffffff;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .logo span {
+            background: linear-gradient(135deg, #7d5fff, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            margin-left: 25px;
+            transition: 0.3s;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .nav-links a:hover { color: #7d5fff; }
+
+        /* Login Container */
+        .login-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 130px 20px 60px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-card {
+            background: rgba(22, 27, 34, 0.75);
+            backdrop-filter: blur(16px);
+            padding: 42px 35px 36px 35px;
+            border-radius: 22px;
+            border: 1px solid rgba(125, 95, 255, 0.15);
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(125, 95, 255, 0.08);
+            box-sizing: border-box;
+            animation: cardIn 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(24px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .login-card.shake { animation: shake 0.45s; }
+        @keyframes shake {
+            10%, 90% { transform: translateX(-2px); }
+            20%, 80% { transform: translateX(4px); }
+            30%, 50%, 70% { transform: translateX(-8px); }
+            40%, 60% { transform: translateX(8px); }
+        }
+
+        /* ---- Kilit İkonu (gerçekçi, animasyonlu) ---- */
+        .lock-stage {
+            width: 84px;
+            height: 84px;
+            margin: 0 auto 20px auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .lock-glow {
+            position: absolute;
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(125,95,255,0.35) 0%, rgba(125,95,255,0) 70%);
+            animation: glowPulse 2.6s ease-in-out infinite;
+        }
+        @keyframes glowPulse {
+            0%, 100% { transform: scale(0.9); opacity: 0.7; }
+            50% { transform: scale(1.15); opacity: 1; }
+        }
+        .lock-ring {
+            position: absolute;
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7d5fff, #38bdf8);
+            box-shadow: 0 8px 24px rgba(125, 95, 255, 0.4);
+        }
+        .lock-svg {
+            position: relative;
+            width: 34px;
+            height: 34px;
+            z-index: 1;
+        }
+        /* Kilit gövdesi sabit */
+        .lock-body {
+            fill: #ffffff;
+        }
+        /* Kilit kolu (shackle) - açılıp kapanma animasyonu */
+        .lock-shackle {
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 2.6;
+            stroke-linecap: round;
+            transform-origin: 17px 13.5px;
+            animation: shackleMove 3.2s ease-in-out infinite;
+        }
+        @keyframes shackleMove {
+            0%, 55% { transform: rotate(0deg) translateY(0); }
+            65% { transform: rotate(-18deg) translateY(-1.5px); }
+            80% { transform: rotate(-18deg) translateY(-1.5px); }
+            100% { transform: rotate(0deg) translateY(0); }
+        }
+        /* Anahtar deliği - hafif nefes alma efekti */
+        .lock-keyhole {
+            fill: #7d5fff;
+            animation: keyholePulse 3.2s ease-in-out infinite;
+        }
+        @keyframes keyholePulse {
+            0%, 55% { opacity: 1; transform: scale(1); }
+            65%, 80% { opacity: 0.4; transform: scale(0.85); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .login-card h2 {
+            margin: 0 0 6px 0;
+            font-size: 1.4rem;
+            text-align: center;
+            letter-spacing: 0.3px;
+        }
+        .login-card h2 span { color: #7d5fff; }
+
+        .login-subtitle {
+            color: #94a3b8;
+            font-size: 13.5px;
+            text-align: center;
+            margin: 0 0 28px 0;
+            line-height: 1.5;
+        }
+
+        .form-group { margin-bottom: 18px; }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 0.85rem;
+            color: #ccc;
+        }
+
+        .input-wrap { position: relative; }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1.5px solid #334155;
+            background: #0f172a;
+            color: #fff;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #7d5fff;
+            box-shadow: 0 0 0 3px rgba(125, 95, 255, 0.2);
+        }
+
+        input#password { padding-right: 44px; }
+
+        .toggle-pass {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #64748b;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+        }
+        .toggle-pass:hover { color: #94a3b8; }
+        .toggle-pass svg { width: 18px; height: 18px; }
+
+        button.btn {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, #7d5fff, #6c4de6);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        button.btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(125, 95, 255, 0.35);
+        }
+        button.btn:active:not(:disabled) { transform: translateY(0); }
+        button.btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2.5px solid rgba(255,255,255,0.4);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            display: none;
+        }
+        .btn.loading .spinner { display: inline-block; }
+        .btn.loading .btn-text { display: none; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        #message {
+            margin-top: 18px;
+            font-size: 13px;
+            text-align: center;
+            line-height: 1.4;
+            border-radius: 8px;
+            padding: 0;
+            transition: all 0.2s;
+        }
+        #message.show {
+            padding: 10px 12px;
+            animation: fadeIn 0.3s ease;
+        }
+        #message.info {
+            color: #94a3b8;
+            background: rgba(148, 163, 184, 0.08);
+            border: 1px solid rgba(148, 163, 184, 0.15);
+        }
+        #message.success {
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.08);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+        }
+        #message.error-msg {
+            color: #f87171;
+            background: rgba(248, 113, 113, 0.08);
+            border: 1px solid rgba(248, 113, 113, 0.2);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .footer-note {
+            margin-top: 22px;
+            font-size: 11.5px;
+            color: #475569;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #555;
+            background: #07090d;
+            border-top: 1px solid #1a1f29;
+            font-size: 0.85rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 480px) {
+            .logo { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="particles" id="particles"></div>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo">WINTER<span>HYACINTH</span></a>
+        <div class="nav-links">
+            <a href="index.html#games">Projeler</a>
+            <a href="index.html#devlogs">Günlükler</a>
+        </div>
+    </nav>
+
+    <main class="login-container">
+        <div class="login-card" id="loginCard">
+
+            <div class="lock-stage">
+                <div class="lock-glow"></div>
+                <div class="lock-ring"></div>
+                <svg class="lock-svg" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">
+                    <path class="lock-shackle" d="M10 14.5V10a7 7 0 0 1 14 0v4.5"></path>
+                    <rect class="lock-body" x="6" y="14" width="22" height="16" rx="4"></rect>
+                    <circle class="lock-keyhole" cx="17" cy="20.5" r="2.3"></circle>
+                    <rect class="lock-keyhole" x="15.6" y="21.5" width="2.8" height="4.5" rx="1"></rect>
+                </svg>
+            </div>
+
+            <h2>Yönetici <span>Girişi</span></h2>
+            <p class="login-subtitle">Güvenli 2 Adımlı Doğrulama Paneli</p>
+
+            <form id="loginForm" autocomplete="off">
+                <div class="form-group">
+                    <label for="username">Kullanıcı Adı</label>
+                    <input type="text" id="username" name="username" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Şifre</label>
+                    <div class="input-wrap">
+                        <!-- autocomplete="new-password" tarayıcının "şifreyi kaydet?" uyarısını engeller -->
+                        <input type="password" id="password" name="password" required autocomplete="new-password" data-lpignore="true" data-1p-ignore data-bwignore>
+                        <button type="button" class="toggle-pass" id="togglePass" tabindex="-1" aria-label="Şifreyi göster/gizle">
+                            <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn" id="submitBtn">
+                    <span class="spinner"></span>
+                    <span class="btn-text">Giriş Yap ve Kod Al</span>
+                </button>
+            </form>
+
+            <div id="message"></div>
+
+            <p class="footer-note">Bu bağlantı yalnızca yetkili yönetici erişimi içindir.</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Winter Hyacinth Studios. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Arka plana hafif yüzen parçacıklar ekle
+        (function() {
+            const container = document.getElementById('particles');
+            const count = 22;
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const left = Math.random() * 100;
+                const delay = Math.random() * 10;
+                const duration = 8 + Math.random() * 10;
+                const size = 2 + Math.random() * 2;
+                p.style.left = left + 'vw';
+                p.style.bottom = '-10px';
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.animationDelay = delay + 's';
+                p.style.animationDuration = duration + 's';
+                container.appendChild(p);
+            }
+        })();
+
+        const form = document.getElementById('loginForm');
+        const msgDiv = document.getElementById('message');
+        const submitBtn = document.getElementById('submitBtn');
+        const loginCard = document.getElementById('loginCard');
+        const passwordInput = document.getElementById('password');
+        const toggleBtn = document.getElementById('togglePass');
+        const eyeIcon = document.getElementById('eyeIcon');
+
+        // Şifreyi göster/gizle
+        toggleBtn.addEventListener('click', function() {
+            const isHidden = passwordInput.type === 'password';
+            passwordInput.type = isHidden ? 'text' : 'password';
+            eyeIcon.innerHTML = isHidden
+                ? '<path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.8 21.8 0 0 1 5.06-6.06M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.8 21.8 0 0 1-3.22 4.44M14.12 14.12a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>'
+                : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>';
+        });
+
+        function showMessage(text, type) {
+            msgDiv.textContent = text;
+            msgDiv.className = 'show ' + type;
+        }
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+            showMessage('Bilgiler kontrol ediliyor ve e-posta gönderiliyor...', 'info');
+
+            try {
+                const response = await fetch('login.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    showMessage('Kod gönderildi! Doğrulama sayfasına yönlendiriliyorsunuz...', 'success');
+
+                    // Şifre alanını hemen temizle (bellekte/DOM'da kalmasın)
+                    passwordInput.value = '';
+
+                    setTimeout(() => {
+                        window.location.href = 'verify.php';
+                    }, 1000);
+                } else {
+                    showMessage(result.message, 'error-msg');
+                    submitBtn.classList.remove('loading');
+                    submitBtn.disabled = false;
+
+                    // Hatalı girişte şifreyi temizle, sallama animasyonu göster
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                    loginCard.classList.add('shake');
+                    setTimeout(() => loginCard.classList.remove('shake'), 450);
+                }
+            } catch (err) {
+                showMessage('Sunucuyla iletişim kurulamadı!', 'error-msg');
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

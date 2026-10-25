@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="site-title">Devlog | Winterhyacinth</title>
+    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background: #0b0e14; color: white; font-family: sans-serif; margin: 0; padding: 0; }
+        .navbar { position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background: rgba(11, 14, 20, 0.95); backdrop-filter: blur(10px); z-index: 1000; box-sizing: border-box; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: white; text-decoration: none; }
+        .logo span { color: #7d5fff; }
+        .logo a { color: inherit; text-decoration: none; }
+        .container { max-width: 900px; margin: 120px auto 50px; padding: 0 20px; }
+        .devlog-banner { width: 100%; height: 300px; object-fit: cover; border-radius: 15px; margin-bottom: 40px; border: 1px solid #333; }
+        .date { color: #7d5fff; font-weight: bold; text-transform: uppercase; }
+        .content { line-height: 1.8; color: #d1d1d1; font-size: 1.1rem; }
+        .archive-section { margin-top: 60px; border-top: 1px solid #1a1f29; padding-top: 40px; }
+        .archive-card { background: #1a1f29; padding: 20px; border-radius: 10px; margin-bottom: 15px; cursor: pointer; transition: 0.3s; border: 1px solid transparent; display: block; text-decoration: none; color: inherit; }
+        .archive-card:hover { border-color: #7d5fff; background: #222834; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <a href="index.html">Winter<span>hyacinth</span></a>
+        </div>
+        <a href="index.html#devlogs" style="color: #7d5fff; font-weight: bold; text-decoration: none;">
+            <i class="fas fa-arrow-left"></i> Geri Dön
+        </a>
+    </nav>
+
+    <main class="container">
+        <article id="main-article">
+            <header style="text-align: center; margin-bottom: 40px;">
+                <span class="date" id="post-date">YÜKLENİYOR...</span>
+                <h1 id="post-title" style="font-size: 2.5rem; margin: 10px 0;">Yükleniyor...</h1>
+                <div style="color: #888;">Yazar: <strong id="post-author" style="color: white;">-</strong></div>
+            </header>
+
+            <img id="post-banner" src="" class="devlog-banner" alt="Banner">
+
+            <div class="content" id="post-content"></div>
+        </article>
+
+        <section class="archive-section">
+            <h2 style="border-left: 5px solid #7d5fff; padding-left: 15px; margin-bottom: 30px;">Tüm Devloglar</h2>
+            <div id="archive-list"></div>
+        </section>
+    </main>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentId = urlParams.get('id');
+
+        fetch('https://gist.githubusercontent.com/EnbesilAdam/efa76e1d7df2ba5be195bd4717d339b5/raw/posts.json?t=' + new Date().getTime())
+            .then(res => res.json())
+            .then(data => {
+                // --- SIRALAMA MANTIĞI ---
+                // Verileri ID'ye göre büyükten küçüğe sıralıyoruz (En yeni en üstte)
+                data.sort((a, b) => parseInt(b.id) - parseInt(a.id));
+
+                // Eğer URL'de ID yoksa, sıralanmış verinin ilkini (en yenisini) seç
+                const post = data.find(p => String(p.id) === String(currentId)) || data[0];
+                
+                if (post) {
+                    document.getElementById('post-title').innerText = post.baslik;
+                    document.getElementById('post-date').innerText = post.tarih;
+                    document.getElementById('post-author').innerText = post.yazar;
+                    document.getElementById('post-banner').src = post.banner;
+                    document.getElementById('post-content').innerHTML = post.icerik;
+                    document.getElementById('site-title').innerText = post.baslik + " | Winterhyacinth";
+                }
+
+                // Arşiv listesini oluştur (zaten yukarıda sıraladığımız için en yeni en üstte gelecek)
+                const archiveList = document.getElementById('archive-list');
+                archiveList.innerHTML = ""; 
+                data.forEach(item => {
+                    archiveList.innerHTML += `
+                        <a href="devlog-detail.html?id=${item.id}" class="archive-card">
+                            <div>
+                                <span style="color: #7d5fff; font-size: 0.8rem; font-weight:bold;">${item.tarih}</span>
+                                <h3 style="margin: 5px 0;">${item.baslik}</h3>
+                                <p style="color: #888; font-size: 0.9rem; margin: 0;">${item.ozet}</p>
+                            </div>
+                        </a>
+                    `;
+                });
+            })
+            .catch(err => {
+                console.error("Hata:", err);
+                document.getElementById('post-content').innerHTML = "<h2>Veriler yüklenemedi. JSON dosyasını kontrol edin.</h2>";
+            });
+    </script>
+</body>
+</html>
